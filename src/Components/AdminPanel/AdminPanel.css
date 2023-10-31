@@ -1,0 +1,7 @@
+.panel-header{
+    width: calc(100%-1px);
+    height: 70px;
+    background-color: #ffba32;
+    border-left: 2px solid #000;
+    
+}

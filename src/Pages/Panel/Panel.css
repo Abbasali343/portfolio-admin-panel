@@ -1,0 +1,22 @@
+.main-container{
+display: flex;
+margin: 0;
+padding: 0;
+}
+.sidebar-container{
+    width: 300px;
+    height: 636px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    
+}
+.form-container{
+    width: 980px;
+    height: 636px;
+    background-color: #e5e5e5;
+    position: absolute;
+    left: 300px;
+    top: 0;
+   
+}

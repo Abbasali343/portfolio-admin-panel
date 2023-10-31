@@ -1,0 +1,11 @@
+.portfolio-input-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  transform: translate(0,70px);
+}
+.portfolio-container{
+    width: 300px;
+    height: 200px;
+    
+}
