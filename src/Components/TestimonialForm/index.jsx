@@ -1,3 +1,4 @@
+import axios from "axios";
 import AddButton from "../AddButton";
 import { useFormik } from "formik";
 import { introSchema } from "../../Schemas";
@@ -18,7 +19,14 @@ export default function TestimonialForm() {
       initialValues: initialValues,
       validationSchema: introSchema,
       onSubmit: (values, action) => {
-        action.resetForm();
+        axios
+        .post("http://localhost:3000/v1/admin/addTestimonial", values)
+        .then((response) => {
+          if (response.status === 201) {
+            alert(response.data.message);
+            action.resetForm();
+          }
+        });
       },
     });
   return (

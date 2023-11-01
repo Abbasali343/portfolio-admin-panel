@@ -20,7 +20,7 @@ export const adminSchema = Yup.object({
     .required("Enter Description"),
   company: Yup.string()
     .min(2, "must have 2 word")
-    .max(15, "max have 15 word")
+    .max(35, "max have 35 word")
     .required("Enter a Company"),
 });
 

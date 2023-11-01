@@ -1,25 +1,27 @@
 import axios from "axios";
 import AddButton from "../AddButton";
-import UploadButton from "../UploadButton";
 import { useFormik } from "formik";
+
 import { adminSchema } from "../../Schemas";
-import "./ProfessionalForm.css";
+import { useEffect } from "react";
 
 const initialValues = {
   title: "",
   email: "abc@gmail.com",
   phoneNo: "1234567890",
   description: "",
-  company: "don't have",
+  company: "",
+  type: "experience",
 };
-export default function ProfessionalForm() {
+
+export default function ExperienceForm() {
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: initialValues,
       validationSchema: adminSchema,
       onSubmit: (values, action) => {
         axios
-          .post("http://localhost:3000/v1/admin/addProfession", values)
+          .post("http://localhost:3000/v1/admin/addEducation", values)
           .then((response) => {
             if (response.status === 201) {
               alert(response.data.message);
@@ -46,7 +48,20 @@ export default function ProfessionalForm() {
               <p className="form-error">{errors.title}</p>
             ) : null}
           </div>
-          <div className="input-container">
+          <div className="input-container" id="input-container">
+            <input
+              className="personal-input"
+              placeholder="Enter University/Company"
+              name="company"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.company}
+            />
+            {errors.company && touched.company ? (
+              <p className="form-error">{errors.company}</p>
+            ) : null}
+          </div>
+          <div className="input-container" id="input-container">
             <input
               className="personal-input"
               id="personal-input"
@@ -59,9 +74,6 @@ export default function ProfessionalForm() {
             {errors.description && touched.description ? (
               <p className="form-error">{errors.description}</p>
             ) : null}
-          </div>
-          <div className="input-container" id="upload">
-            <UploadButton />
           </div>
         </div>
       </div>

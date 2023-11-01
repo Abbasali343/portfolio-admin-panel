@@ -1,14 +1,17 @@
+import axios from "axios";
 import AddButton from "../AddButton";
 import { useFormik } from "formik";
 
 import { adminSchema } from "../../Schemas";
+import { useEffect } from "react";
 
 const initialValues = {
   title: "",
   email: "abc@gmail.com",
   phoneNo: "1234567890",
-  description:"",
+  description: "",
   company: "",
+  type: "education",
 };
 
 export default function EducationForm() {
@@ -17,7 +20,14 @@ export default function EducationForm() {
       initialValues: initialValues,
       validationSchema: adminSchema,
       onSubmit: (values, action) => {
-        action.resetForm();
+        axios
+          .post("http://localhost:3000/v1/admin/addEducation", values)
+          .then((response) => {
+            if (response.status === 201) {
+              alert(response.data.message);
+              action.resetForm();
+            }
+          });
       },
     });
   return (

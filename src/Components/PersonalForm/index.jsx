@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useFormik } from "formik";
 import { introSchema } from "../../Schemas";
 import UploadButton from "../UploadButton";
@@ -6,7 +7,7 @@ import "../../assets/css/Form.css";
 const initialValues = {
   name: "",
   profession: "",
-  description: '',
+  description: "",
   followers: 0,
   projects: 0,
   clients: 0,
@@ -14,14 +15,25 @@ const initialValues = {
 };
 
 const PersonalForm = () => {
+
+  
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: initialValues,
       validationSchema: introSchema,
       onSubmit: (values, action) => {
-        action.resetForm();
+        axios
+          .post("http://localhost:3000/v1/admin/addUser", values)
+          .then((response) => {
+            if (response.status === 201) {
+              alert(response.data.message);
+              action.resetForm();
+            }
+          });
       },
     });
+
+
   return (
     <>
       <div className="main-input-container">
@@ -35,8 +47,8 @@ const PersonalForm = () => {
             value={values.name}
           />
           {errors.name && touched.name ? (
-              <p className="form-error">{errors.name}</p>
-            ) : null}
+            <p className="form-error">{errors.name}</p>
+          ) : null}
         </div>
         <div className="input-container">
           <input
@@ -48,10 +60,11 @@ const PersonalForm = () => {
             value={values.profession}
           />
           {errors.profession && touched.profession ? (
-              <p className="form-error">{errors.profession}</p>
-            ) : null}
+            <p className="form-error">{errors.profession}</p>
+          ) : null}
         </div>
         <div className="input-container">
+          <p className="subtitle">Enter Projects</p>
           <input
             className="personal-input"
             placeholder="Enter Projects "
@@ -61,10 +74,11 @@ const PersonalForm = () => {
             value={values.projects}
           />
           {errors.projects && touched.projects ? (
-              <p className="form-error">{errors.projects}</p>
-            ) : null}
+            <p className="form-error">{errors.projects}</p>
+          ) : null}
         </div>
         <div className="input-container">
+          <p className="subtitle">Enter Experience</p>
           <input
             className="personal-input"
             placeholder="Enter Experience"
@@ -74,10 +88,11 @@ const PersonalForm = () => {
             value={values.experience}
           />
           {errors.experience && touched.experience ? (
-              <p className="form-error">{errors.experience}</p>
-            ) : null}
+            <p className="form-error">{errors.experience}</p>
+          ) : null}
         </div>
         <div className="input-container">
+          <p className="subtitle">Enter Clients</p>
           <input
             className="personal-input"
             placeholder="Enter Clients"
@@ -87,10 +102,11 @@ const PersonalForm = () => {
             value={values.clients}
           />
           {errors.clients && touched.clients ? (
-              <p className="form-error">{errors.clients}</p>
-            ) : null}
+            <p className="form-error">{errors.clients}</p>
+          ) : null}
         </div>
         <div className="input-container">
+          <p className="subtitle">Enter Followers</p>
           <input
             className="personal-input"
             placeholder="Enter Followers"
@@ -100,8 +116,8 @@ const PersonalForm = () => {
             value={values.followers}
           />
           {errors.followers && touched.followers ? (
-              <p className="form-error">{errors.followers}</p>
-            ) : null}
+            <p className="form-error">{errors.followers}</p>
+          ) : null}
         </div>
         <div className="input-container">
           <input
@@ -114,13 +130,19 @@ const PersonalForm = () => {
             value={values.description}
           />
           {errors.description && touched.description ? (
-              <p className="form-error">{errors.description}</p>
-            ) : null}
+            <p className="form-error">{errors.description}</p>
+          ) : null}
         </div>
         <div className="input-container">
           <UploadButton />
         </div>
-        <button className="personal-button" type="button" onClick={handleSubmit} >Submit</button>
+        <button
+          className="personal-button"
+          type="button"
+          onClick={handleSubmit}
+        >
+          Submit
+        </button>
       </div>
     </>
   );

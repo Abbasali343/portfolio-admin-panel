@@ -1,3 +1,4 @@
+import axios from "axios";
 import AddButton from "../AddButton";
 import { useFormik } from "formik";
 import { adminSchema } from "../../Schemas";
@@ -15,7 +16,14 @@ export default function ContactForm() {
       initialValues: initialValues,
       validationSchema: adminSchema,
       onSubmit: (values, action) => {
-        action.resetForm();
+        axios
+        .post("http://localhost:3000/v1/admin/addContact", values)
+        .then((response) => {
+          if (response.status === 201) {
+            alert(response.data.message);
+            action.resetForm();
+          }
+        });
       },
     });
   return (

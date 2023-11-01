@@ -2,6 +2,7 @@ import InfoHeader from "../InfoHeader";
 import PersonalForm from "../PersonalForm";
 import ProfessionalForm from "../ProfessionalForm";
 import EducationForm from "../EducationForm";
+import ExperienceForm from "../ExperienceForm";
 import PortfolioForm from "../PortfolioForm";
 import TestimonialForm from "../TestimonialForm";
 import ContactForm from "../ContactForm";
@@ -17,7 +18,7 @@ export default function PersonalInfoForm({ category }) {
     ) : category === "Education" ? (
       <EducationForm />
     ) : category === "Experience" ? (
-      <EducationForm />
+      <ExperienceForm />
     ) : category === "Portfolio" ? (
       <PortfolioForm />
     ) : category === "Testimonials" ? (
