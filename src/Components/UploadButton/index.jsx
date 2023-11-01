@@ -1,10 +1,18 @@
-export default function UploadButton() {
+export default function UploadButton({ handleUpload, index }) {
   return (
     <>
       <div className="portfolio-container" id="upload">
-        <input type="file" id="profile" className="profile-upload" />
+        <input
+          type="file"
+          id="profile"
+          className="profile-upload"
+          onChange={(event) => {
+            const file = event.target.files[0];
+            handleUpload(file,index);
+          }}
+        />
         <div className="upload-container">
-          <label className="profile-upload-btn" for="profile">
+          <label className="profile-upload-btn" htmlFor="profile">
             Click To Upload Profile Image
           </label>
         </div>

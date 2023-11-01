@@ -1,27 +1,70 @@
 import AddButton from "../AddButton";
+import { useFormik } from "formik";
+
+import { adminSchema } from "../../Schemas";
+
+const initialValues = {
+  title: "",
+  email: "abc@gmail.com",
+  phoneNo: "1234567890",
+  description:"",
+  company: "",
+};
 
 export default function EducationForm() {
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      initialValues: initialValues,
+      validationSchema: adminSchema,
+      onSubmit: (values, action) => {
+        action.resetForm();
+      },
+    });
   return (
     <>
       <div className="professional-form-container">
-      <AddButton />
+        <AddButton handleClick={handleSubmit} />
         <div className="profession-input-container">
           <div className="input-container" id="input-container">
-            <input className="personal-input" placeholder="Enter Title" />
+            <input
+              className="personal-input"
+              placeholder="Enter Title"
+              name="title"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.title}
+            />
+            {errors.title && touched.title ? (
+              <p className="form-error">{errors.title}</p>
+            ) : null}
           </div>
           <div className="input-container" id="input-container">
-            <input className="personal-input" placeholder="Enter University/Company" />
+            <input
+              className="personal-input"
+              placeholder="Enter University/Company"
+              name="company"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.company}
+            />
+            {errors.company && touched.company ? (
+              <p className="form-error">{errors.company}</p>
+            ) : null}
           </div>
           <div className="input-container" id="input-container">
             <input
               className="personal-input"
               id="personal-input"
               placeholder="Enter Your Intro(15 to 200 words)"
-              min={15}
-              max={200}
+              name="description"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.description}
             />
+            {errors.description && touched.description ? (
+              <p className="form-error">{errors.description}</p>
+            ) : null}
           </div>
-          
         </div>
       </div>
     </>

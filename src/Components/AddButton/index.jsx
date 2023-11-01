@@ -1,3 +1,9 @@
-export default function AddButton(){
-    return(<><button className="add-btn">Add</button></>)
+export default function AddButton({ handleClick }) {
+  return (
+    <>
+      <button className="add-btn" type="button" onClick={handleClick}>
+        Add
+      </button>
+    </>
+  );
 }
