@@ -94,4 +94,7 @@ display: none;
   color: #000;
   transform: translate(55px,10px);
 }
+.both-input-container{
+  display: flex;
+}
 

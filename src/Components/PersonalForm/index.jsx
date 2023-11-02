@@ -71,6 +71,7 @@ const PersonalForm = () => {
       .then((response) => {
         if (response.status === 201) {
           alert(response.data.message);
+          setIsUploaded(false)
         }
       });
   }
