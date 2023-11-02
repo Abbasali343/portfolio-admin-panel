@@ -1,4 +1,4 @@
-export default function UploadButton({ handleUpload, index }) {
+export default function UploadButton({ handleUpload, toggle }) {
   return (
     <>
       <div className="portfolio-container" id="upload">
@@ -8,7 +8,8 @@ export default function UploadButton({ handleUpload, index }) {
           className="profile-upload"
           onChange={(event) => {
             const file = event.target.files[0];
-            handleUpload(file,index);
+            
+            handleUpload(file,toggle);
           }}
         />
         <div className="upload-container">

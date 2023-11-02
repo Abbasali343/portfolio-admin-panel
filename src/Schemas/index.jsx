@@ -31,14 +31,22 @@ export const introSchema = Yup.object({
     .required("Enter Name"),
   profession: Yup.string()
     .min(2, "must contain 2 words")
-    .max(15, "max contain 15 words")
+    .max(45, "max contain 45 words")
     .required("Enter Profession"),
   description: Yup.string()
     .min(15, "must contain 15 words")
     .max(200, "max contain 200 words")
     .required("Enter Description"),
-  followers: Yup.number().min(1,"number should greater then 0").required("Enter Followers"),
-  projects: Yup.number().min(1,"number should greater then 0").required("Enter Projects"),
-  clients: Yup.number().min(1,"number should greater then 0").required("Enter Clients"),
-  experience: Yup.number().min(1,"number should greater then 0").required("Enter Experience"),
+  followers: Yup.number()
+    .min(1, "number should greater then 0")
+    .required("Enter Followers"),
+  projects: Yup.number()
+    .min(1, "number should greater then 0")
+    .required("Enter Projects"),
+  clients: Yup.number()
+    .min(1, "number should greater then 0")
+    .required("Enter Clients"),
+  experience: Yup.number()
+    .min(1, "number should greater then 0")
+    .required("Enter Experience"),
 });

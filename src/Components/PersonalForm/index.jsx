@@ -2,7 +2,12 @@ import axios from "axios";
 import { useFormik } from "formik";
 import { introSchema } from "../../Schemas";
 import UploadButton from "../UploadButton";
+import ToggledBox from "../ToggledBox";
+import { storage } from "../../firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { v4 } from "uuid";
 import "../../assets/css/Form.css";
+import { useState } from "react";
 
 const initialValues = {
   name: "",
@@ -15,24 +20,60 @@ const initialValues = {
 };
 
 const PersonalForm = () => {
-
+  const [image, setImage] = useState("");
+  const [isUploaded, setIsUploaded] = useState(false);
   
+
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: initialValues,
       validationSchema: introSchema,
       onSubmit: (values, action) => {
+        if (image === "") {
+          return alert("Select Image");
+        }
         axios
           .post("http://localhost:3000/v1/admin/addUser", values)
           .then((response) => {
             if (response.status === 201) {
               alert(response.data.message);
+              handleClick(values.name);
               action.resetForm();
+            }
+          })
+          .catch((err) => {
+            if (err.response.status === 403) {
+              alert(err.response.data.error);
             }
           });
       },
     });
 
+  async function handleUpload(file, handleToggle) {
+    const imageRef = ref(storage, `graphics/${file.name + v4()}`);
+    const response = await uploadBytes(imageRef, file);
+    const url = await getDownloadURL(response.ref);
+    setImage(url);
+    handleToggle();
+
+    // setToggleImages([...toggleImages,toggleImages])
+  }
+
+  function toggleImage() {
+    setIsUploaded(true);
+  }
+
+  function handleClick(name) {
+    const requestBody = { name: name, link: image };
+
+    axios
+      .patch("http://localhost:3000/v1/admin/updateUser", requestBody)
+      .then((response) => {
+        if (response.status === 201) {
+          alert(response.data.message);
+        }
+      });
+  }
 
   return (
     <>
@@ -134,7 +175,14 @@ const PersonalForm = () => {
           ) : null}
         </div>
         <div className="input-container">
-          <UploadButton />
+          {!isUploaded ? (
+            <UploadButton handleUpload={handleUpload} toggle={toggleImage} />
+          ) : (
+            <ToggledBox />
+          )}
+          {errors.link && touched.link ? (
+            <p className="form-error">{errors.link}</p>
+          ) : null}
         </div>
         <button
           className="personal-button"
