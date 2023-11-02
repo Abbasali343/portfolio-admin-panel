@@ -3,20 +3,19 @@ import axios from "axios";
 import AddButton from "../AddButton";
 import UploadButton from "../UploadButton";
 import ToggledBox from "../ToggledBox";
+import PortfolioNav from "../PortFolioNav";
 import { storage } from "../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
 import "./PortfolioForm.css";
 
+const initialValues = [false, false, false, false];
+
 const PortfolioForm = () => {
-  const [image, setImage] = useState(null);
+  // const [image, setImage] = useState(null);
   const [images, setImages] = useState([]);
-  const [toggleImages, setToggleImages] = useState([
-    false,
-    false,
-    false,
-    false,
-  ]);
+  const [field, setField] = useState("all");
+  const [toggleImages, setToggleImages] = useState(initialValues);
 
   function toggleImage() {
     toggleImages[0] = true;
@@ -47,47 +46,61 @@ const PortfolioForm = () => {
 
   async function handleClick() {
     if (images.length < 4) {
-      return;
+      return alert("Please upload all 4 images");
     }
     axios
       .post("http://localhost:3000/v1/admin/addPortfolio", {
-        field: "web development",
+        field: field,
         links: images,
       })
       .then((response) => {
         if (response.status === 201) {
           alert(response.data.message);
+          setToggleImages([false, false, false, false]);
+        }
+      })
+      .catch((err) => {
+        if (err.response.status === 403) {
+          alert(err.response.data.error);
         }
       });
   }
 
+  function handleNavClick(fieldName) {
+    setField(fieldName);
+  }
+
   return (
     <>
-      <div className="professional-form-container">
-        <AddButton handleClick={handleClick} />
-        <div className="portfolio-input-container">
-          {toggleImages[0] === false ? (
-            <UploadButton handleUpload={handleUpload} toggle={toggleImage} />
-          ) : (
-            <ToggledBox />
-          )}
-          {toggleImages[1] === false ? (
-            <UploadButton handleUpload={handleUpload} toggle={toggleImage1} />
-          ) : (
-            <ToggledBox />
-          )}
-          {toggleImages[2] === false ? (
-            <UploadButton handleUpload={handleUpload} toggle={toggleImage2} />
-          ) : (
-            <ToggledBox />
-          )}
-          {toggleImages[3] === false ? (
-            <UploadButton handleUpload={handleUpload} toggle={toggleImage3} />
-          ) : (
-            <ToggledBox />
-          )}
+      {field !== "all" ? (
+        <div className="professional-form-container">
+          <AddButton handleClick={handleClick} />
+          <div className="portfolio-input-container">
+            {toggleImages[0] === false ? (
+              <UploadButton handleUpload={handleUpload} toggle={toggleImage} />
+            ) : (
+              <ToggledBox />
+            )}
+            {toggleImages[1] === false ? (
+              <UploadButton handleUpload={handleUpload} toggle={toggleImage1} />
+            ) : (
+              <ToggledBox />
+            )}
+            {toggleImages[2] === false ? (
+              <UploadButton handleUpload={handleUpload} toggle={toggleImage2} />
+            ) : (
+              <ToggledBox />
+            )}
+            {toggleImages[3] === false ? (
+              <UploadButton handleUpload={handleUpload} toggle={toggleImage3} />
+            ) : (
+              <ToggledBox />
+            )}
+          </div>
         </div>
-      </div>
+      ) : (
+        <PortfolioNav handleNavClick={handleNavClick} />
+      )}
     </>
   );
 };

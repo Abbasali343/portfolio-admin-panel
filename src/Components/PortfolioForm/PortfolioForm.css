@@ -9,3 +9,16 @@
     height: 200px;
     
 }
+.portfolio-nav{
+  width: 80%;
+  height: 70px;
+  margin: auto;
+  display: flex;
+  justify-content: space-evenly;
+}
+.portfolio-nav-heading{
+  font-weight: 400;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 24px;
+  cursor: pointer;
+}
