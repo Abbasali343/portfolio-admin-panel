@@ -20,13 +20,18 @@ export default function TestimonialForm() {
       validationSchema: introSchema,
       onSubmit: (values, action) => {
         axios
-        .post("http://localhost:3000/v1/admin/addTestimonial", values)
-        .then((response) => {
-          if (response.status === 201) {
-            alert(response.data.message);
-            action.resetForm();
-          }
-        });
+          .post("http://localhost:3000/v1/admin/addTestimonial", values)
+          .then((response) => {
+            if (response.status === 201) {
+              alert(response.data.message);
+              action.resetForm();
+            }
+          })
+          .catch((err) => {
+            if (err.response.status === 403) {
+              alert(err.response.data.error);
+            }
+          });
       },
     });
   return (

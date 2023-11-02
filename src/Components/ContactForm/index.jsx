@@ -4,11 +4,11 @@ import { useFormik } from "formik";
 import { adminSchema } from "../../Schemas";
 
 const initialValues = {
-  title:"don't have",
+  title: "don't have",
   email: "",
   phoneNo: "",
   description: "i have no values for this section",
-  company:"don't have"
+  company: "don't have",
 };
 export default function ContactForm() {
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
@@ -17,13 +17,18 @@ export default function ContactForm() {
       validationSchema: adminSchema,
       onSubmit: (values, action) => {
         axios
-        .post("http://localhost:3000/v1/admin/addContact", values)
-        .then((response) => {
-          if (response.status === 201) {
-            alert(response.data.message);
-            action.resetForm();
-          }
-        });
+          .post("http://localhost:3000/v1/admin/addContact", values)
+          .then((response) => {
+            if (response.status === 201) {
+              alert(response.data.message);
+              action.resetForm();
+            }
+          })
+          .catch((err) => {
+            if (err.response.status === 403) {
+              alert(err.response.data.error);
+            }
+          });
       },
     });
   return (

@@ -36,7 +36,8 @@ export default function ProfessionalForm() {
               handleClick(values.title);
               action.resetForm();
             }
-          }).catch((err) => {
+          })
+          .catch((err) => {
             if (err.response.status === 403) {
               alert(err.response.data.error);
             }
@@ -44,30 +45,29 @@ export default function ProfessionalForm() {
       },
     });
 
+  async function handleUpload(file, handleToggle) {
+    const imageRef = ref(storage, `graphics/${file.name + v4()}`);
+    const response = await uploadBytes(imageRef, file);
+    const url = await getDownloadURL(response.ref);
+    setImage(url);
+    handleToggle();
+  }
 
-    async function handleUpload(file, handleToggle) {
-      const imageRef = ref(storage, `graphics/${file.name + v4()}`);
-      const response = await uploadBytes(imageRef, file);
-      const url = await getDownloadURL(response.ref);
-      setImage(url);
-      handleToggle();
-    }
-  
-    function toggleImage() {
-      setIsUploaded(true);
-    }
+  function toggleImage() {
+    setIsUploaded(true);
+  }
 
-    function handleClick(title) {
-      const requestBody = { title: title, link: image };
-  
-      axios
-        .patch("http://localhost:3000/v1/admin/updateProfession", requestBody)
-        .then((response) => {
-          if (response.status === 201) {
-            alert(response.data.message);
-          }
-        });
-    }
+  function handleClick(title) {
+    const requestBody = { title: title, link: image };
+
+    axios
+      .patch("http://localhost:3000/v1/admin/updateProfession", requestBody)
+      .then((response) => {
+        if (response.status === 201) {
+          alert(response.data.message);
+        }
+      });
+  }
   return (
     <>
       <div className="professional-form-container">
@@ -101,11 +101,11 @@ export default function ProfessionalForm() {
             ) : null}
           </div>
           <div className="input-container" id="upload">
-          {!isUploaded ? (
-            <UploadButton handleUpload={handleUpload} toggle={toggleImage} />
-          ) : (
-            <ToggledBox />
-          )}
+            {!isUploaded ? (
+              <UploadButton handleUpload={handleUpload} toggle={toggleImage} />
+            ) : (
+              <ToggledBox />
+            )}
           </div>
         </div>
       </div>

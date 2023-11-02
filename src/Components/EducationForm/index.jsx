@@ -27,6 +27,11 @@ export default function EducationForm() {
               alert(response.data.message);
               action.resetForm();
             }
+          })
+          .catch((err) => {
+            if (err.response.status === 403) {
+              alert(err.response.data.error);
+            }
           });
       },
     });
