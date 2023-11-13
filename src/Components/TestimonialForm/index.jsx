@@ -2,6 +2,7 @@ import axios from "axios";
 import AddButton from "../AddButton";
 import UploadButton from "../UploadButton";
 import ToggledBox from "../ToggledBox";
+import ProfileSelector from "../ProfileSelector";
 import { storage } from "../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
@@ -17,11 +18,13 @@ const initialValues = {
   projects: 1,
   clients: 1,
   experience: 1,
+  userName: "",
 };
 
 export default function TestimonialForm() {
   const [image, setImage] = useState("");
   const [isUploaded, setIsUploaded] = useState(false);
+  const [selectedName, setSelectedName] = useState("");
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: initialValues,
@@ -30,8 +33,17 @@ export default function TestimonialForm() {
         if (image === "") {
           return alert("Select Image");
         }
+        const requestedValues = {
+          name: values.userName,
+          testimonialName: values.name,
+          description: values.description,
+          profession: values.profession,
+        };
         axios
-          .post("http://localhost:3000/v1/admin/addTestimonial", values)
+          .patch(
+            "http://localhost:3000/v1/admin/addTestimonial",
+            requestedValues
+          )
           .then((response) => {
             if (response.status === 201) {
               alert(response.data.message);
@@ -65,73 +77,81 @@ export default function TestimonialForm() {
       .then((response) => {
         if (response.status === 201) {
           alert(response.data.message);
-          setIsUploaded(false)
+          setIsUploaded(false);
         }
       });
   }
 
+  function getName(name) {
+    setSelectedName(name);
+    values.userName = name;
+  }
+
   return (
     <>
-      <div className="professional-form-container">
-        <AddButton handleClick={handleSubmit} />
-        <div className="profession-input-container">
+    {values.userName === "" ? (
+        <ProfileSelector getName={getName} />
+      ) : (<div className="professional-form-container">
+      <AddButton handleClick={handleSubmit} />
+      <div className="profession-input-container">
+        <div className="input-container" id="input-container">
+          <input
+            className="personal-input"
+            placeholder="Enter Name"
+            name="name"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.name}
+          />
+          {errors.name && touched.name ? (
+            <p className="form-error">{errors.name}</p>
+          ) : null}
+        </div>
+        <div className="input-container" id="input-container">
+          <input
+            className="personal-input"
+            placeholder="Enter Profession"
+            name="profession"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.profession}
+          />
+          {errors.profession && touched.profession ? (
+            <p className="form-error">{errors.profession}</p>
+          ) : null}
+        </div>
+        <div className="both-input-container">
           <div className="input-container" id="input-container">
             <input
               className="personal-input"
-              placeholder="Enter Name"
-              name="name"
+              id="personal-input"
+              placeholder="Enter Your Message(15 to 200 words)"
+              name="description"
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.name}
+              value={values.description}
             />
-            {errors.name && touched.name ? (
-              <p className="form-error">{errors.name}</p>
+            {errors.description && touched.description ? (
+              <p className="form-error">{errors.description}</p>
             ) : null}
           </div>
-          <div className="input-container" id="input-container">
-            <input
-              className="personal-input"
-              placeholder="Enter Profession"
-              name="profession"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.profession}
-            />
-            {errors.profession && touched.profession ? (
-              <p className="form-error">{errors.profession}</p>
-            ) : null}
-          </div>
-          <div className="both-input-container">
-            <div className="input-container" id="input-container">
-              <input
-                className="personal-input"
-                id="personal-input"
-                placeholder="Enter Your Message(15 to 200 words)"
-                name="description"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.description}
+          <div className="input-container">
+            {!isUploaded ? (
+              <UploadButton
+                handleUpload={handleUpload}
+                toggle={toggleImage}
               />
-              {errors.description && touched.description ? (
-                <p className="form-error">{errors.description}</p>
-              ) : null}
-            </div>
-            <div className="input-container">
-              {!isUploaded ? (
-                <UploadButton
-                  handleUpload={handleUpload}
-                  toggle={toggleImage}
-                />
-              ) : (
-                <ToggledBox />
-              )}
-              {errors.link && touched.link ? (
-                <p className="form-error">{errors.link}</p>
-              ) : null}
-            </div>
+            ) : (
+              <ToggledBox />
+            )}
+            {errors.link && touched.link ? (
+              <p className="form-error">{errors.link}</p>
+            ) : null}
           </div>
         </div>
       </div>
+    </div>)}
+      
     </>
   );
 }

@@ -22,7 +22,6 @@ const initialValues = {
 const PersonalForm = () => {
   const [image, setImage] = useState("");
   const [isUploaded, setIsUploaded] = useState(false);
-  
 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
@@ -71,7 +70,7 @@ const PersonalForm = () => {
       .then((response) => {
         if (response.status === 201) {
           alert(response.data.message);
-          setIsUploaded(false)
+          setIsUploaded(false);
         }
       });
   }

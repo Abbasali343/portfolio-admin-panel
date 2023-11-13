@@ -4,6 +4,7 @@ import AddButton from "../AddButton";
 import UploadButton from "../UploadButton";
 import ToggledBox from "../ToggledBox";
 import PortfolioNav from "../PortFolioNav";
+import ProfileSelector from "../ProfileSelector";
 import { storage } from "../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
@@ -16,6 +17,7 @@ const PortfolioForm = () => {
   const [images, setImages] = useState([]);
   const [field, setField] = useState("all");
   const [toggleImages, setToggleImages] = useState(initialValues);
+  const [selectedName, setSelectedName] = useState("");
 
   function toggleImage() {
     toggleImages[0] = true;
@@ -49,7 +51,8 @@ const PortfolioForm = () => {
       return alert("Please upload all 4 images");
     }
     axios
-      .post("http://localhost:3000/v1/admin/addPortfolio", {
+      .patch("http://localhost:3000/v1/admin/addPortfolio", {
+        name:selectedName,
         field: field,
         links: images,
       })
@@ -70,9 +73,13 @@ const PortfolioForm = () => {
     setField(fieldName);
   }
 
+  function getName(name) {
+    setSelectedName(name);
+  }
+
   return (
     <>
-      {field !== "all" ? (
+    {selectedName===""?(<ProfileSelector getName={getName} />):(<>{field !== "all" ? (
         <div className="professional-form-container">
           <AddButton handleClick={handleClick} />
           <div className="portfolio-input-container">
@@ -100,7 +107,8 @@ const PortfolioForm = () => {
         </div>
       ) : (
         <PortfolioNav handleNavClick={handleNavClick} />
-      )}
+      )}</>)}
+      
     </>
   );
 };
