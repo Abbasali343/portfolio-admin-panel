@@ -47,7 +47,7 @@ export default function TestimonialForm() {
           .then((response) => {
             if (response.status === 201) {
               alert(response.data.message);
-              handleClick(values.name);
+              handleClick(values.name, values.userName);
               action.resetForm();
             }
           })
@@ -69,8 +69,12 @@ export default function TestimonialForm() {
   function toggleImage() {
     setIsUploaded(true);
   }
-  function handleClick(name) {
-    const requestBody = { name: name, link: image };
+  function handleClick(testimonialName, name) {
+    const requestBody = {
+      name: name,
+      testimonialName: testimonialName,
+      link: image,
+    };
 
     axios
       .patch("http://localhost:3000/v1/admin/updateTestimonial", requestBody)
@@ -89,69 +93,70 @@ export default function TestimonialForm() {
 
   return (
     <>
-    {values.userName === "" ? (
+      {values.userName === "" ? (
         <ProfileSelector getName={getName} />
-      ) : (<div className="professional-form-container">
-      <AddButton handleClick={handleSubmit} />
-      <div className="profession-input-container">
-        <div className="input-container" id="input-container">
-          <input
-            className="personal-input"
-            placeholder="Enter Name"
-            name="name"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.name}
-          />
-          {errors.name && touched.name ? (
-            <p className="form-error">{errors.name}</p>
-          ) : null}
-        </div>
-        <div className="input-container" id="input-container">
-          <input
-            className="personal-input"
-            placeholder="Enter Profession"
-            name="profession"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.profession}
-          />
-          {errors.profession && touched.profession ? (
-            <p className="form-error">{errors.profession}</p>
-          ) : null}
-        </div>
-        <div className="both-input-container">
-          <div className="input-container" id="input-container">
-            <input
-              className="personal-input"
-              id="personal-input"
-              placeholder="Enter Your Message(15 to 200 words)"
-              name="description"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.description}
-            />
-            {errors.description && touched.description ? (
-              <p className="form-error">{errors.description}</p>
-            ) : null}
-          </div>
-          <div className="input-container">
-            {!isUploaded ? (
-              <UploadButton
-                handleUpload={handleUpload}
-                toggle={toggleImage}
+      ) : (
+        <div className="professional-form-container">
+          <AddButton handleClick={handleSubmit} />
+          <div className="profession-input-container">
+            <div className="input-container" id="input-container">
+              <input
+                className="personal-input"
+                placeholder="Enter Name"
+                name="name"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.name}
               />
-            ) : (
-              <ToggledBox />
-            )}
-            {errors.link && touched.link ? (
-              <p className="form-error">{errors.link}</p>
-            ) : null}
+              {errors.name && touched.name ? (
+                <p className="form-error">{errors.name}</p>
+              ) : null}
+            </div>
+            <div className="input-container" id="input-container">
+              <input
+                className="personal-input"
+                placeholder="Enter Profession"
+                name="profession"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.profession}
+              />
+              {errors.profession && touched.profession ? (
+                <p className="form-error">{errors.profession}</p>
+              ) : null}
+            </div>
+            <div className="both-input-container">
+              <div className="input-container" id="input-container">
+                <input
+                  className="personal-input"
+                  id="personal-input"
+                  placeholder="Enter Your Message(15 to 200 words)"
+                  name="description"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.description}
+                />
+                {errors.description && touched.description ? (
+                  <p className="form-error">{errors.description}</p>
+                ) : null}
+              </div>
+              <div className="input-container">
+                {!isUploaded ? (
+                  <UploadButton
+                    handleUpload={handleUpload}
+                    toggle={toggleImage}
+                  />
+                ) : (
+                  <ToggledBox />
+                )}
+                {errors.link && touched.link ? (
+                  <p className="form-error">{errors.link}</p>
+                ) : null}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>)}
-      
+      )}
     </>
   );
 }
