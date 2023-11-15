@@ -1,5 +1,6 @@
 import axios from "axios";
 import AddButton from "../AddButton";
+import Modal from "../Modal";
 import { useFormik } from "formik";
 import ProfileSelector from "../ProfileSelector";
 import { adminSchema } from "../../Schemas";
@@ -17,6 +18,7 @@ const initialValues = {
 
 export default function EducationForm() {
   const [selectedName, setSelectedName] = useState("");
+  const [isModal, setIsModal] = useState(false);
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: initialValues,
@@ -33,7 +35,8 @@ export default function EducationForm() {
           .patch("http://localhost:3000/v1/admin/addEducation", requestedValues)
           .then((response) => {
             if (response.status === 201) {
-              alert(response.data.message);
+              
+              setIsModal(!isModal);
               action.resetForm();
             }
           })
@@ -49,12 +52,17 @@ export default function EducationForm() {
     setSelectedName(name);
     values.userName = name;
   }
+  function handleModal() {
+    setIsModal(!isModal);
+    setSelectedName("");
+  }
   return (
     <>
-      {values.userName === "" ? (
+      {selectedName === "" ? (
         <ProfileSelector getName={getName} />
       ) : (
         <div className="professional-form-container">
+          {isModal && <Modal handleModal={handleModal} />}
           <AddButton handleClick={handleSubmit} />
           <div className="profession-input-container">
             <div className="input-container" id="input-container">
@@ -73,7 +81,7 @@ export default function EducationForm() {
             <div className="input-container" id="input-container">
               <input
                 className="personal-input"
-                placeholder="Enter University/Company"
+                placeholder="Enter University"
                 name="company"
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -84,7 +92,7 @@ export default function EducationForm() {
               ) : null}
             </div>
             <div className="input-container" id="input-container">
-              <input
+              <textarea
                 className="personal-input"
                 id="personal-input"
                 placeholder="Enter Your Intro(15 to 200 words)"

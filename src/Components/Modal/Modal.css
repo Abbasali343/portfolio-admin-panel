@@ -1,0 +1,32 @@
+.backdrop {
+  width: 1280px;
+  height: 636px;
+  background-color: black;
+  position: absolute;
+  top: 0px;
+  left: -300px;
+  z-index: 10;
+  opacity: 50%;
+}
+.message-container {
+  width: 500px;
+  height: 200px;
+  background-color: #fff;
+  border: 3px solid #ffba32;
+  position: absolute;
+  top: 190px;
+  text-align: center;
+  z-index: 20;
+}
+.modal-message{
+    font-weight: 400;
+}
+.modal-button{
+    width: 120px;
+    height: 30px;
+    border: 1px solid #ffba32;
+    border-radius: 2px;
+    background-color: #ffba32;
+    cursor: pointer;
+    transform: translate(0,40px);
+}

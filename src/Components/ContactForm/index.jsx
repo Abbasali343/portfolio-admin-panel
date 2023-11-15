@@ -1,6 +1,7 @@
 import axios from "axios";
 import AddButton from "../AddButton";
 import ProfileSelector from "../ProfileSelector";
+import Modal from "../Modal";
 import { useFormik } from "formik";
 import { adminSchema } from "../../Schemas";
 import { useState } from "react";
@@ -15,6 +16,7 @@ const initialValues = {
 };
 export default function ContactForm() {
   const [selectedName, setSelectedName] = useState("");
+  const [isModal, setIsModal] = useState(false);
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: initialValues,
@@ -29,7 +31,7 @@ export default function ContactForm() {
           .patch("http://localhost:3000/v1/admin/addContact", requestedValues)
           .then((response) => {
             if (response.status === 201) {
-              alert(response.data.message);
+              setIsModal(!isModal);
               action.resetForm();
             }
           })
@@ -46,12 +48,18 @@ export default function ContactForm() {
     values.userName = name;
   }
 
+  function handleModal() {
+    setIsModal(!isModal);
+    setSelectedName("");
+  }
+
   return (
     <>
-      {values.userName === "" ? (
+      {selectedName === "" ? (
         <ProfileSelector getName={getName} />
       ) : (
         <div className="professional-form-container">
+          {isModal && <Modal handleModal={handleModal} />}
           <AddButton handleClick={handleSubmit} />
           <div className="profession-input-container">
             <div className="input-container" id="input-container">

@@ -1,9 +1,10 @@
 import axios from "axios";
 import AddButton from "../AddButton";
+import Modal from "../Modal";
 import { useFormik } from "formik";
 import ProfileSelector from "../ProfileSelector";
 import { adminSchema } from "../../Schemas";
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 
 const initialValues = {
   title: "",
@@ -16,6 +17,7 @@ const initialValues = {
 };
 
 export default function ExperienceForm() {
+  const [isModal, setIsModal] = useState(false);
   const [selectedName, setSelectedName] = useState("");
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
@@ -33,7 +35,7 @@ export default function ExperienceForm() {
           .patch("http://localhost:3000/v1/admin/addEducation", requestedValues)
           .then((response) => {
             if (response.status === 201) {
-              alert(response.data.message);
+              setIsModal(!isModal);
               action.resetForm();
             }
           })
@@ -50,12 +52,19 @@ export default function ExperienceForm() {
     values.userName = name;
   }
 
+  function handleModal() {
+    setIsModal(!isModal);
+
+    setSelectedName("");
+  }
+
   return (
     <>
-      {values.userName === "" ? (
+      {selectedName === "" ? (
         <ProfileSelector getName={getName} />
       ) : (
         <div className="professional-form-container">
+          {isModal && <Modal handleModal={handleModal} />}
           <AddButton handleClick={handleSubmit} />
           <div className="profession-input-container">
             <div className="input-container" id="input-container">
@@ -74,7 +83,7 @@ export default function ExperienceForm() {
             <div className="input-container" id="input-container">
               <input
                 className="personal-input"
-                placeholder="Enter University/Company"
+                placeholder="Enter Company"
                 name="company"
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -85,7 +94,7 @@ export default function ExperienceForm() {
               ) : null}
             </div>
             <div className="input-container" id="input-container">
-              <input
+              <textarea
                 className="personal-input"
                 id="personal-input"
                 placeholder="Enter Your Intro(15 to 200 words)"

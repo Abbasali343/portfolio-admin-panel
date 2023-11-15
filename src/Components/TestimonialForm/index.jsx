@@ -3,6 +3,7 @@ import AddButton from "../AddButton";
 import UploadButton from "../UploadButton";
 import ToggledBox from "../ToggledBox";
 import ProfileSelector from "../ProfileSelector";
+import Modal from "../Modal";
 import { storage } from "../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
@@ -25,6 +26,7 @@ export default function TestimonialForm() {
   const [image, setImage] = useState("");
   const [isUploaded, setIsUploaded] = useState(false);
   const [selectedName, setSelectedName] = useState("");
+  const [isModal, setIsModal] = useState(false);
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: initialValues,
@@ -46,7 +48,6 @@ export default function TestimonialForm() {
           )
           .then((response) => {
             if (response.status === 201) {
-              alert(response.data.message);
               handleClick(values.name, values.userName);
               action.resetForm();
             }
@@ -80,7 +81,7 @@ export default function TestimonialForm() {
       .patch("http://localhost:3000/v1/admin/updateTestimonial", requestBody)
       .then((response) => {
         if (response.status === 201) {
-          alert(response.data.message);
+          setIsModal(!isModal);
           setIsUploaded(false);
         }
       });
@@ -91,12 +92,18 @@ export default function TestimonialForm() {
     values.userName = name;
   }
 
+  function handleModal() {
+    setIsModal(!isModal);
+    setSelectedName("");
+  }
+
   return (
     <>
-      {values.userName === "" ? (
+      {selectedName === "" ? (
         <ProfileSelector getName={getName} />
       ) : (
         <div className="professional-form-container">
+          {isModal && <Modal handleModal={handleModal} />}
           <AddButton handleClick={handleSubmit} />
           <div className="profession-input-container">
             <div className="input-container" id="input-container">
@@ -127,7 +134,7 @@ export default function TestimonialForm() {
             </div>
             <div className="both-input-container">
               <div className="input-container" id="input-container">
-                <input
+                <textarea
                   className="personal-input"
                   id="personal-input"
                   placeholder="Enter Your Message(15 to 200 words)"
@@ -147,7 +154,7 @@ export default function TestimonialForm() {
                     toggle={toggleImage}
                   />
                 ) : (
-                  <ToggledBox />
+                  <ToggledBox image={image} />
                 )}
                 {errors.link && touched.link ? (
                   <p className="form-error">{errors.link}</p>

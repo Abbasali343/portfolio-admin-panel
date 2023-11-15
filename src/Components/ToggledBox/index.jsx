@@ -1,3 +1,9 @@
-export default function ToggledBox(){
-    return(<><div className="toggledBox"><h1 className="toggled-box-heading">Uploaded</h1></div></>)
+export default function ToggledBox({ image }) {
+  return (
+    <>
+      <div className="toggledBox">
+        <img src={image} className="toggledBox-image1" />
+      </div>
+    </>
+  );
 }

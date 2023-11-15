@@ -1,5 +1,5 @@
 import InfoHeader from "../InfoHeader";
-import PersonalForm from "../PersonalForm";
+import ShowDetails from "../ShowDetails";
 import ProfessionalForm from "../ProfessionalForm";
 import EducationForm from "../EducationForm";
 import ExperienceForm from "../ExperienceForm";
@@ -12,7 +12,7 @@ export default function PersonalInfoForm({ category }) {
   const title = category;
   const renderForm =
     category === "Personal" ? (
-      <PersonalForm />
+      <ShowDetails />
     ) : category === "Professional" ? (
       <ProfessionalForm />
     ) : category === "Education" ? (

@@ -1,0 +1,174 @@
+.resume-details-container {
+  width: 100%;
+  height: 430px;
+  overflow: auto;
+}
+.resume-header {
+  width: 100%;
+  height: 50px;
+  text-align: center;
+}
+.main-resume-container {
+  width: 100%;
+  height: 380px;
+}
+.resume-education-container {
+  width: 100%;
+  height: 380px;
+  background-color: #fff;
+  overflow: auto;
+}
+.resume-experience-container {
+  width: 100%;
+  height: 190px;
+}
+.education-card-container {
+  display: flex;
+  flex-direction: column;
+}
+.sub-card-education {
+  width: 50%;
+  height: 161px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+.edu-card-sub-container {
+  width: 100%;
+  height: 161px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-end;
+  background-color: #fff;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+.education-heading1 {
+  width: 200px;
+  height: 72px;
+
+  word-wrap: break-word;
+  margin-left: 40px;
+}
+.edu-table-head {
+  width: 100%;
+  height: 40px;
+  background-color: black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.edu-th {
+  flex-basis: 33%;
+  color: #fff;
+}
+.edu-table-body {
+  width: 100%;
+  text-align: center;
+}
+.edu-body-data-container {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.edu-table-body-data {
+  flex-basis: 33%;
+  margin-left: -25px;
+}
+.test-main-container {
+  width: 100%;
+  height: 445px;
+}
+.test-head {
+  width: 100%;
+  height: 40px;
+  text-align: center;
+
+  margin: -21px 0;
+}
+.test-body {
+  width: 100%;
+  height: 405px;
+  background-color: #fff;
+  margin: -20px 0;
+}
+.test-table-head {
+  width: 100%;
+  height: 40px;
+  background-color: black;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.test-th {
+  flex-basis: 33%;
+  color: #fff;
+}
+.test-table-h {
+  width: 100%;
+}
+
+.portfolio-details-nav {
+  display: flex;
+  justify-content: space-evenly;
+}
+#pf-body {
+  background-color: #e5e5e5;
+}
+.pf-nav-head {
+  cursor: pointer;
+}
+.pf-body {
+  width: 100%;
+  height: 350px;
+}
+.pf-details-all-container {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
+  margin-bottom: 12px;
+}
+.pf-web-image {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  left: 0;
+}
+.pf-web-image-container {
+  flex-basis: 20%;
+  height: 98%;
+  border: 1px solid black;
+}
+.pf-details-container {
+  width: 100%;
+  height: 310px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding: 20px 0;
+}
+
+.pf-web-container {
+  flex-basis: 40%;
+  height: 40%;
+  border: 1px solid black;
+}
+.edit-button {
+  width: 90px;
+  height: 35px;
+  background-color: #ffba32;
+  border-radius: 2px;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.edit-btn-head{
+  font-weight: 400;
+  font-size: 20px;
+}

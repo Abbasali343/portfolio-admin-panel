@@ -88,7 +88,7 @@ export default function ProfessionalForm() {
             ) : null}
           </div>
           <div className="input-container">
-            <input
+            <textarea
               className="personal-input"
               id="personal-input"
               placeholder="Enter Your Intro(15 to 200 words)"
@@ -105,7 +105,7 @@ export default function ProfessionalForm() {
             {!isUploaded ? (
               <UploadButton handleUpload={handleUpload} toggle={toggleImage} />
             ) : (
-              <ToggledBox />
+              <ToggledBox image={image} />
             )}
           </div>
         </div>
