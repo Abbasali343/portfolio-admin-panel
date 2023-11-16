@@ -4,11 +4,18 @@ import PersonalInfoCard from "../UserDataComponents/PersonalInfoCard";
 import Resume from "../UserDataComponents/Resume";
 import TestimonialsCard from "../UserDataComponents/TestimonialsCard";
 import PortfolioCard from "../UserDataComponents/PortfolioCard";
+import EditPersonalForm from "../EditPersonalForm";
+import EditEducationForm from "../UserDataComponents/EditEducationForm";
+import DisplayResume from "../UserDataComponents/DisplayResume";
 import "../ShowDetails/ShowDetails.css";
 
 export default function SingleUserDetails({ userName, handleDetails }) {
   const [data, setData] = useState();
   const [isEditing, setIsEditing] = useState(false);
+  const [isEduEditing, setIsEduEditing] = useState(false);
+  const [detailsType, setDetailsType] = useState();
+  const [singleEducation, setSingleEducation] = useState();
+
   function fetchData() {
     axios
       .get(`http://localhost:3000/v1/admin/oneUser?name=${userName}`)
@@ -50,28 +57,64 @@ export default function SingleUserDetails({ userName, handleDetails }) {
   function handleEditing() {
     setIsEditing(!isEditing);
   }
+  function handleEduEditing(title, type) {
+    setDetailsType(type);
+    setIsEduEditing(!isEduEditing);
+    setSingleEducation(
+      type === "education"
+        ? educationInfo.filter((education) => {
+            return education.title === title;
+          })
+        : type === "experience"
+        ? experienceInfo.filter((experience) => {
+            return experience.title === title;
+          })
+        : testimonialsInfo.filter((testimonial) => {
+            return testimonial.testimonialName === title;
+          })
+    );
+  }
   return (
     <>
-      <div className="user-details-header">
-        <h1 className="close-page" onClick={() => handleDetails("")}>
-          X
-        </h1>
-      </div>
+      {isEduEditing && (
+        <>
+          <EditEducationForm />
+          <DisplayResume
+            data={singleEducation}
+            onClose={handleEduEditing}
+            type={detailsType}
+          />
+        </>
+      )}
       {!isEditing && (
-        <div className="details-container">
-          <div className="card-container">
-            <PersonalInfoCard
-              data={personalInfo}
-              handleEditing={handleEditing}
-            />
-            <Resume
-              educationData={educationInfo}
-              experienceData={experienceInfo}
-            />
-            <TestimonialsCard data={testimonialsInfo} />
-            <PortfolioCard data={pfLinks} />
+        <>
+          <div className="user-details-header">
+            <h1 className="close-page" onClick={() => handleDetails("")}>
+              X
+            </h1>
           </div>
-        </div>
+          <div className="details-container">
+            <div className="card-container">
+              <PersonalInfoCard
+                data={personalInfo}
+                handleEditing={handleEditing}
+              />
+              <Resume
+                educationData={educationInfo}
+                experienceData={experienceInfo}
+                handleEduEditing={handleEduEditing}
+              />
+              <TestimonialsCard
+                data={testimonialsInfo}
+                handleEduEditing={handleEduEditing}
+              />
+              <PortfolioCard data={pfLinks} />
+            </div>
+          </div>
+        </>
+      )}
+      {isEditing && (
+        <EditPersonalForm data={personalInfo} handleEditing={handleEditing} />
       )}
     </>
   );

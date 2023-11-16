@@ -2,7 +2,7 @@ import EducationCard from "../EducationCard";
 import ExperienceCard from "../ExperienceCard";
 import "../UserDataComponents.css";
 
-export default function Resume({ educationData, experienceData }) {
+export default function Resume({ educationData, experienceData,handleEduEditing }) {
   return (
     <>
       <div className="resume-details-container">
@@ -11,7 +11,7 @@ export default function Resume({ educationData, experienceData }) {
         </div>
         <div className="main-resume-container">
           <div className="resume-education-container">
-            <EducationCard data={educationData && educationData} />
+            <EducationCard data={educationData && educationData} handleEduEditing={handleEduEditing} />
           </div>
         </div>
         <div className="resume-header">
@@ -19,7 +19,7 @@ export default function Resume({ educationData, experienceData }) {
         </div>
         <div className="main-resume-container">
           <div className="resume-education-container">
-            <ExperienceCard data={experienceData && experienceData} />
+            <ExperienceCard data={experienceData && experienceData} handleEduEditing={handleEduEditing} />
           </div>
         </div>
       </div>

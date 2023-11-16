@@ -110,19 +110,50 @@
   width: 100%;
 }
 
-.portfolio-details-nav {
-  display: flex;
-  justify-content: space-evenly;
-}
-#pf-body {
-  background-color: #e5e5e5;
-}
+/* css for pf show card */
+
 .pf-nav-head {
+  width: 100%;
+  height: 40px;
+  overflow: auto;
+  position: relative;
+}
+.pf-nav-container {
+  width: auto;
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  left: 0;
+}
+
+.pf-nav-update-option {
+  width: 250px;
+  font-weight: 400;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 16px;
   cursor: pointer;
 }
-.pf-body {
+#isActive{
+  color: #ffba32;
+}
+.pf-details-img-container{
+  flex-basis: 40%;
+  height: 150px;
+  border: 1px solid black;
+  margin-top: 20px;
+}
+.pf-details-image{
   width: 100%;
-  height: 350px;
+  height: 100%;
+  position: relative;
+  left: 0;
+  top: 0;
+}
+.render-card-container{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 .pf-details-all-container {
   width: 100%;
@@ -162,13 +193,13 @@
   height: 35px;
   background-color: #ffba32;
   border-radius: 2px;
-  
+
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.edit-btn-head{
+.edit-btn-head {
   font-weight: 400;
   font-size: 20px;
 }

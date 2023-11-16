@@ -1,10 +1,11 @@
-export default function ExperienceCard({ data }) {
+export default function ExperienceCard({ data,handleEduEditing }) {
+  const type = 'experience';
   let grayId = false;
   let renderCard;
   if (data) {
-    renderCard = data.map((item) => (
+    renderCard = data.map((item,index) => (
       <tr
-        key={item._id}
+        key={index}
         className="edu-body-data-container"
         id={grayId ? "body-data-container" : null}
       >
@@ -13,7 +14,7 @@ export default function ExperienceCard({ data }) {
         <td
           className="table-body-data"
           id="show-details"
-          onClick={()=>handleDetails(item.name)}
+          onClick={()=>handleEduEditing(item.title,type)}
         >
           See Details
         </td>
