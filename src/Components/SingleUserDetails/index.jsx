@@ -7,6 +7,7 @@ import PortfolioCard from "../UserDataComponents/PortfolioCard";
 import EditPersonalForm from "../EditPersonalForm";
 import EditEducationForm from "../UserDataComponents/EditEducationForm";
 import DisplayResume from "../UserDataComponents/DisplayResume";
+import ProfessionCard from "../UserDataComponents/ProfessionCard";
 import "../ShowDetails/ShowDetails.css";
 
 export default function SingleUserDetails({ userName, handleDetails }) {
@@ -49,6 +50,7 @@ export default function SingleUserDetails({ userName, handleDetails }) {
       profilePicture: data.profilePicture,
     };
     educationInfo = data.education;
+    professionalInfo = data.professionsData;
     experienceInfo = data.experienceData;
     pfLinks = data.pfLinks;
     testimonialsInfo = data.testimonials;
@@ -68,6 +70,10 @@ export default function SingleUserDetails({ userName, handleDetails }) {
         : type === "experience"
         ? experienceInfo.filter((experience) => {
             return experience.title === title;
+          })
+        : type === "profession"
+        ? professionalInfo.filter((profession) => {
+            return profession.title === title;
           })
         : testimonialsInfo.filter((testimonial) => {
             return testimonial.testimonialName === title;
@@ -99,6 +105,7 @@ export default function SingleUserDetails({ userName, handleDetails }) {
                 data={personalInfo}
                 handleEditing={handleEditing}
               />
+              <ProfessionCard data={professionalInfo} handleEduEditing={handleEduEditing} />
               <Resume
                 educationData={educationInfo}
                 experienceData={experienceInfo}

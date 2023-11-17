@@ -1,5 +1,5 @@
-export default function TestimonialsCard({ data, handleEduEditing }) {
-  const type = "testimonial";
+export default function ProfessionCard({ data ,handleEduEditing}) {
+    const type = 'profession';
   let grayId = false;
   let renderCard;
   if (data) {
@@ -9,14 +9,12 @@ export default function TestimonialsCard({ data, handleEduEditing }) {
         className="edu-body-data-container"
         id={grayId ? "body-data-container" : null}
       >
-        <td className="edu-table-body-data">{item && item.testimonialName}</td>
-        <td className="edu-table-body-data">{item && item.profession}</td>
+        <td className="edu-table-body-data">{item.title}</td>
+        <td className="edu-table-body-data">{item.description}</td>
         <td
           className="table-body-data"
           id="show-details"
-          onClick={() => {
-            handleEduEditing(item.testimonialName, type);
-          }}
+          onClick={() => handleEduEditing(item.title, type)}
         >
           See Details
         </td>
@@ -28,13 +26,13 @@ export default function TestimonialsCard({ data, handleEduEditing }) {
     <>
       <div className="test-main-container">
         <div className="test-head">
-          <h1>Testimonials</h1>
+          <h1>Professions</h1>
           <div className="test-body">
             <table className="test-table-h">
               <thead className="test-table-h">
                 <tr className="test-table-head">
-                  <th className="test-th">Name</th>
-                  <th className="test-th">Profession</th>
+                  <th className="test-th">Title</th>
+                  <th className="test-th">Description</th>
                   <th className="test-th">Action</th>
                 </tr>
               </thead>

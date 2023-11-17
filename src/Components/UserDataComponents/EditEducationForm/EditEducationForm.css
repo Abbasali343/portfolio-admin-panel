@@ -76,3 +76,11 @@
 .edu-details-intro{
     width: 80%;
 }
+.edit-info-img{
+  width: 70px;
+  height: 70px;
+  position: relative;
+}
+.edit-profession-input-container{
+  height: 30px;
+}

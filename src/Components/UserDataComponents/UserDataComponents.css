@@ -93,6 +93,7 @@
   height: 405px;
   background-color: #fff;
   margin: -20px 0;
+  overflow: auto;
 }
 .test-table-head {
   width: 100%;

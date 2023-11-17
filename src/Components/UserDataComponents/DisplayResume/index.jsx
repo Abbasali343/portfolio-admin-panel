@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { EditButton } from "../../../Components.style";
+import UploadButton from "../../UploadButton";
 import "../EditEducationForm/EditEducationForm.css";
 export default function DisplayResume({ data, onClose, type }) {
   const [details, setDetails] = useState(data[0]);
@@ -11,6 +12,18 @@ export default function DisplayResume({ data, onClose, type }) {
       [e.target.name]: e.target.value,
     });
   };
+  async function handleUpload(file, handleToggle) {
+    const imageRef = ref(storage, `graphics/${file.name + v4()}`);
+    const response = await uploadBytes(imageRef, file);
+    const url = await getDownloadURL(response.ref);
+    setImage(url);
+    handleToggle();
+  }
+
+  function toggleImage() {
+    setIsUploaded(true);
+  }
+
   return (
     <>
       <div className="main-display-container">
@@ -39,6 +52,11 @@ export default function DisplayResume({ data, onClose, type }) {
                   <h2>Designation:</h2>
                   <h2>Company:</h2>
                 </>
+              ) : type === "profession" ? (
+                <>
+                  <h2>Title:</h2>
+                  <h2>image:</h2>
+                </>
               ) : (
                 <>
                   <h2>Name:</h2>
@@ -53,45 +71,64 @@ export default function DisplayResume({ data, onClose, type }) {
                     className="personal-input"
                     placeholder="Enter Your Name"
                     name={
-                      type === "education" || type === "experience"
+                      type === "education" ||
+                      type === "experience" ||
+                      type === "profession"
                         ? "title"
                         : "testimonialName"
                     }
                     onChange={handleChange}
                     value={
-                      type === "education" || type === "experience"
+                      type === "education" ||
+                      type === "experience" ||
+                      type === "profession"
                         ? details.title
                         : details.testimonialName
                     }
                   />
-                  <input
-                    className="personal-input"
-                    placeholder="Enter Your Name"
-                    name={
-                      type === "education" || type === "experience"
-                        ? "company"
-                        : "profession"
-                    }
-                    onChange={handleChange}
-                    value={
-                      type === "education" || type === "experience"
-                        ? details.company
-                        : details.profession
-                    }
-                  />
+                  {type === "profession" ? (
+                    <div className="edit-profession-input-container">
+                      <UploadButton
+                        handleUpload={handleUpload}
+                        toggle={toggleImage}
+                      />
+                    </div>
+                  ) : (
+                    <input
+                      className="personal-input"
+                      placeholder="Enter Your Name"
+                      name={
+                        type === "education" || type === "experience"
+                          ? "company"
+                          : "profession"
+                      }
+                      onChange={handleChange}
+                      value={
+                        type === "education" || type === "experience"
+                          ? details.company
+                          : details.profession
+                      }
+                    />
+                  )}
                 </>
               ) : (
                 <>
                   <h2>
-                    {type === "education" || type === "experience"
+                    {type === "education" ||
+                    type === "experience" ||
+                    type === "profession"
                       ? details.title
                       : details.testimonialName}
                   </h2>
-                  <h2>
-                    {type === "education" || type === "experience"
-                      ? details.company
-                      : details.profession}
-                  </h2>
+                  {type === "profession" ? (
+                    <img src={details.link} className="edit-info-img" />
+                  ) : (
+                    <h2>
+                      {type === "education" || type === "experience"
+                        ? details.company
+                        : details.profession}
+                    </h2>
+                  )}
                 </>
               )}
             </div>
