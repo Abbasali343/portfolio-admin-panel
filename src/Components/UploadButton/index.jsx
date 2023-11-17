@@ -1,4 +1,10 @@
-export default function UploadButton({ handleUpload, value, toggle, index }) {
+export default function UploadButton({
+  handleUpload,
+  value,
+  toggle,
+  index,
+  imageIndex,
+}) {
   return (
     <>
       <div className="portfolio-container" id="upload">

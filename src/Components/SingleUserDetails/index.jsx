@@ -75,9 +75,11 @@ export default function SingleUserDetails({ userName, handleDetails }) {
         ? professionalInfo.filter((profession) => {
             return profession.title === title;
           })
-        : testimonialsInfo.filter((testimonial) => {
+        : type === "testimonial"
+        ? testimonialsInfo.filter((testimonial) => {
             return testimonial.testimonialName === title;
           })
+        : null
     );
   }
   return (
@@ -86,6 +88,7 @@ export default function SingleUserDetails({ userName, handleDetails }) {
         <>
           <EditEducationForm />
           <DisplayResume
+            name={personalInfo.name}
             data={singleEducation}
             onClose={handleEduEditing}
             type={detailsType}
@@ -105,7 +108,10 @@ export default function SingleUserDetails({ userName, handleDetails }) {
                 data={personalInfo}
                 handleEditing={handleEditing}
               />
-              <ProfessionCard data={professionalInfo} handleEduEditing={handleEduEditing} />
+              <ProfessionCard
+                data={professionalInfo}
+                handleEduEditing={handleEduEditing}
+              />
               <Resume
                 educationData={educationInfo}
                 experienceData={experienceInfo}
@@ -115,7 +121,7 @@ export default function SingleUserDetails({ userName, handleDetails }) {
                 data={testimonialsInfo}
                 handleEduEditing={handleEduEditing}
               />
-              <PortfolioCard data={pfLinks} />
+              <PortfolioCard data={pfLinks} name={personalInfo && personalInfo.name} />
             </div>
           </div>
         </>

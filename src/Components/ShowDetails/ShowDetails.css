@@ -105,6 +105,11 @@
 .info-sub-container {
   transform: translate(180px, 0);
 }
+.single-user-email{
+  width: 170px;
+  text-overflow: ellipsis;
+  
+}
 
 .about-info-container {
   width: 100%;

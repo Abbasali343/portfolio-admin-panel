@@ -1,17 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import { EditButton } from "../../../Components.style";
 import UploadButton from "../../UploadButton";
+import { storage } from "../../../firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { v4 } from "uuid";
+import Modal from "../../Modal";
+import ToggledBox from "../../ToggledBox";
 import "../EditEducationForm/EditEducationForm.css";
-export default function DisplayResume({ data, onClose, type }) {
+
+export default function DisplayResume({ name, data, onClose, type }) {
+  const [image, setImage] = useState();
   const [details, setDetails] = useState(data[0]);
   const [isEditing, setIsEditing] = useState(false);
+  const [isModal, setIsModal] = useState(false);
+  const [isUploaded, setIsUploaded] = useState(false);
+  const baseLink = "http://localhost:3000/v1/admin/";
+  let requestedBody;
 
+  useEffect(() => {
+    if (type === "testimonial" || type === "profession") {
+      setImage(details.link);
+    }
+  }, [type]);
   const handleChange = (e) => {
     setDetails({
       ...details,
       [e.target.name]: e.target.value,
     });
   };
+
   async function handleUpload(file, handleToggle) {
     const imageRef = ref(storage, `graphics/${file.name + v4()}`);
     const response = await uploadBytes(imageRef, file);
@@ -24,20 +42,83 @@ export default function DisplayResume({ data, onClose, type }) {
     setIsUploaded(true);
   }
 
+  function handleSubmit() {
+    let link;
+    if (type === "education" || type === "experience") {
+      link = "updateAllEducationInfo";
+      requestedBody = {
+        name: name,
+        title: details.title,
+        type: type,
+        company: details.company,
+        description: details.description,
+      };
+    } else if (type === "profession") {
+      link = "updateAllProfessionalInfo";
+      requestedBody = {
+        name: name,
+        title: details.title,
+        description: details.description,
+        link: image,
+      };
+    } else {
+      link = "updateAllTestimonialInfo";
+      requestedBody = {
+        name: name,
+        testimonialName: details.testimonialName,
+        profession: details.profession,
+        description: details.description,
+        link: image,
+      };
+    }
+    axios
+      .patch(baseLink + link, requestedBody)
+      .then((response) => {
+        if (response.status === 201) {
+          setIsModal(!isModal);
+        }
+      })
+      .catch((err) => {
+        if (err.response.status === 403) {
+          alert(err.response.data.error);
+        }
+      });
+  }
+  function handleModal() {
+    setIsModal(!isModal);
+    onClose();
+  }
+
   return (
     <>
       <div className="main-display-container">
+        {isModal && <Modal handleModal={handleModal} />}
         <div className="display-header">
           <h1 className="display-back-button" onClick={onClose}>
             &#8592;
           </h1>
-          <EditButton
-            top={"20px"}
-            left={"700px"}
-            onClick={() => setIsEditing(!isEditing)}
-          >
-            {isEditing ? "Cancel" : "Edit"}
-          </EditButton>
+          {isEditing ? (
+            <>
+              <EditButton
+                top={"20px"}
+                left={"600px"}
+                onClick={() => setIsEditing(!isEditing)}
+              >
+                Cancel
+              </EditButton>
+              <EditButton top={"20px"} left={"650px"} onClick={handleSubmit}>
+                Submit
+              </EditButton>
+            </>
+          ) : (
+            <EditButton
+              top={"20px"}
+              left={"700px"}
+              onClick={() => setIsEditing(!isEditing)}
+            >
+              Edit
+            </EditButton>
+          )}
         </div>
         <div className="display-details-container">
           <div className="display-details-sub-container">
@@ -61,6 +142,7 @@ export default function DisplayResume({ data, onClose, type }) {
                 <>
                   <h2>Name:</h2>
                   <h2>Profession:</h2>
+                  <h2>Image:</h2>
                 </>
               )}
             </div>
@@ -78,6 +160,7 @@ export default function DisplayResume({ data, onClose, type }) {
                         : "testimonialName"
                     }
                     onChange={handleChange}
+                    disabled
                     value={
                       type === "education" ||
                       type === "experience" ||
@@ -88,10 +171,14 @@ export default function DisplayResume({ data, onClose, type }) {
                   />
                   {type === "profession" ? (
                     <div className="edit-profession-input-container">
-                      <UploadButton
-                        handleUpload={handleUpload}
-                        toggle={toggleImage}
-                      />
+                      {!isUploaded ? (
+                        <UploadButton
+                          handleUpload={handleUpload}
+                          toggle={toggleImage}
+                        />
+                      ) : (
+                        <ToggledBox image={image} />
+                      )}
                     </div>
                   ) : (
                     <input
@@ -110,6 +197,18 @@ export default function DisplayResume({ data, onClose, type }) {
                       }
                     />
                   )}
+                  {type === "testimonial" && (
+                    <div className="edit-profession-input-container">
+                      {!isUploaded ? (
+                        <UploadButton
+                          handleUpload={handleUpload}
+                          toggle={toggleImage}
+                        />
+                      ) : (
+                        <ToggledBox image={image} />
+                      )}
+                    </div>
+                  )}
                 </>
               ) : (
                 <>
@@ -120,14 +219,20 @@ export default function DisplayResume({ data, onClose, type }) {
                       ? details.title
                       : details.testimonialName}
                   </h2>
-                  {type === "profession" ? (
-                    <img src={details.link} className="edit-info-img" />
-                  ) : (
-                    <h2>
-                      {type === "education" || type === "experience"
-                        ? details.company
-                        : details.profession}
-                    </h2>
+                  {type === "profession" && (
+                    <div className="edit-info-img-container-1">
+                      <img src={image} className="edit-info-img" />
+                    </div>
+                  )}
+                  <h2>
+                    {type === "education" || type === "experience"
+                      ? details.company
+                      : details.profession}
+                  </h2>
+                  {type === "testimonial" && (
+                    <div className="edit-info-img-container">
+                      <img src={image} className="edit-info-img" />
+                    </div>
                   )}
                 </>
               )}

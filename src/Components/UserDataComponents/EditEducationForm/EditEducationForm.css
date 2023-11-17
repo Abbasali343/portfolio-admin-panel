@@ -84,3 +84,16 @@
 .edit-profession-input-container{
   height: 30px;
 }
+.edit-info-img-container{
+  width: 100px;
+  height: 80px;
+  margin-top: -25px;
+  padding-top: 20px;
+}
+.edit-info-img-container-1{
+  width: 100px;
+  height: 80px;
+  margin-top: -175px;
+  padding-top: 10px;
+  transform: translate(0,160px);
+}

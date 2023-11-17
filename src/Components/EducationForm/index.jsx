@@ -35,7 +35,6 @@ export default function EducationForm() {
           .patch("http://localhost:3000/v1/admin/addEducation", requestedValues)
           .then((response) => {
             if (response.status === 201) {
-              
               setIsModal(!isModal);
               action.resetForm();
             }

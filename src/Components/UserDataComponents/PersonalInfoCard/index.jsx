@@ -12,9 +12,9 @@ export default function PersonalInfoCard({ data,handleEditing }) {
           </div>
           <div className="info-sub-container">
             <h3>{data && data.name}</h3>
-            <h5>{data && data.email}</h5>
+            <h5 className="single-user-email">{data && data.email}</h5>
           </div>
-          <EditButton top={"30px"} left={"600px"} onClick={handleEditing}>
+          <EditButton top={"30px"} left={"500px"} onClick={handleEditing}>
             Edit
           </EditButton>
         </div>
