@@ -1,5 +1,9 @@
-export default function ProfessionCard({ data ,handleEduEditing}) {
-    const type = 'profession';
+import axios from "axios";
+import EditDocumentButton from "../../EditDocumentButton";
+import DeleteButton from "../../DeleteButton";
+
+export default function ProfessionCard({ name, data, handleEduEditing }) {
+  const type = "profession";
   let grayId = false;
   let renderCard;
   if (data) {
@@ -11,16 +15,34 @@ export default function ProfessionCard({ data ,handleEduEditing}) {
       >
         <td className="edu-table-body-data">{item.title}</td>
         <td className="edu-table-body-data">{item.description}</td>
-        <td
-          className="table-body-data"
-          id="show-details"
-          onClick={() => handleEduEditing(item.title, type)}
-        >
-          See Details
+        <td className="table-body-data" id="show-details">
+          <EditDocumentButton
+            onSelect={() => handleEduEditing(item.title, type)}
+          />
+          <DeleteButton onDelete={deleteUser} name={name} title={item.title} />
         </td>
         {(grayId = !grayId)}
       </tr>
     ));
+  }
+
+  function deleteUser(name, title) {
+    const requestBody = {
+      name: name,
+      title: title,
+    };
+    axios
+      .delete(`http://localhost:3000/v1/admin/deleteProfession`, {
+        data: requestBody,
+      })
+      .then((response) => {
+        alert("Profession Deleted");
+      })
+      .catch((err) => {
+        if (err.response.status === 403) {
+          alert(err.response.data.error);
+        }
+      });
   }
   return (
     <>

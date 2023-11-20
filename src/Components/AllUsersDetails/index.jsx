@@ -1,5 +1,8 @@
 import { useState } from "react";
+import axios from "axios";
 import PersonalForm from "../PersonalForm";
+import EditDocumentButton from "../EditDocumentButton";
+import DeleteButton from "../DeleteButton";
 import "../ShowDetails/ShowDetails.css";
 
 export default function AllUsersDetails({ data, handleDetails }) {
@@ -19,9 +22,9 @@ export default function AllUsersDetails({ data, handleDetails }) {
         <td
           className="table-body-data"
           id="show-details"
-          onClick={() => handleDetails(item.name)}
         >
-          See Details
+          <EditDocumentButton onSelect={() => handleDetails(item.name)} />
+          <DeleteButton onDelete={deleteUser} name={item.name} />
         </td>
         {(grayId = !grayId)}
       </tr>
@@ -29,6 +32,15 @@ export default function AllUsersDetails({ data, handleDetails }) {
   }
   function handleAddNewUser(){
     setIsNewUser(!isNewUser)
+  }
+  function deleteUser(name){
+    axios.delete(`http://localhost:3000/v1/admin/deleteUser?name=${name}`).then((response)=>{
+      alert('User Deleted');
+    }).catch((err) => {
+      if (err.response.status === 403) {
+        alert(err.response.data.error);
+      }
+    });
   }
   return (
     <>

@@ -51,7 +51,6 @@ export default function EditPersonalForm({ data, handleEditing }) {
           )
           .then((response) => {
             if (response.status === 201) {
-              console.log(requestedBody);
               action.resetForm();
               setIsNew(false);
               setIsModal(!isModal);

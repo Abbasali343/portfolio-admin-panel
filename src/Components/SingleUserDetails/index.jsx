@@ -8,6 +8,7 @@ import EditPersonalForm from "../EditPersonalForm";
 import EditEducationForm from "../UserDataComponents/EditEducationForm";
 import DisplayResume from "../UserDataComponents/DisplayResume";
 import ProfessionCard from "../UserDataComponents/ProfessionCard";
+import ExperienceCard from "../UserDataComponents/ExperienceCard";
 import "../ShowDetails/ShowDetails.css";
 
 export default function SingleUserDetails({ userName, handleDetails }) {
@@ -109,19 +110,37 @@ export default function SingleUserDetails({ userName, handleDetails }) {
                 handleEditing={handleEditing}
               />
               <ProfessionCard
+                name={personalInfo && personalInfo.name}
                 data={professionalInfo}
                 handleEduEditing={handleEduEditing}
               />
               <Resume
+                name={personalInfo && personalInfo.name}
                 educationData={educationInfo}
                 experienceData={experienceInfo}
                 handleEduEditing={handleEduEditing}
               />
+              <div className="resume-header">
+                <h1>Experience Details</h1>
+              </div>
+              <div className="main-resume-container">
+                <div className="resume-education-container">
+                  <ExperienceCard
+                    name={personalInfo && personalInfo.name}
+                    data={experienceInfo && experienceInfo}
+                    handleEduEditing={handleEduEditing}
+                  />
+                </div>
+              </div>
               <TestimonialsCard
+                name={personalInfo && personalInfo.name}
                 data={testimonialsInfo}
                 handleEduEditing={handleEduEditing}
               />
-              <PortfolioCard data={pfLinks} name={personalInfo && personalInfo.name} />
+              <PortfolioCard
+                data={pfLinks}
+                name={personalInfo && personalInfo.name}
+              />
             </div>
           </div>
         </>

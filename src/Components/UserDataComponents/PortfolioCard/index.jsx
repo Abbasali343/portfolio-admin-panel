@@ -103,7 +103,24 @@ export default function PortfolioCard({ data, name }) {
   function handleModal() {
     setIsModal(!isModal);
   }
-  console.log(isModal);
+  function deleteUser() {
+    const requestBody = {
+      name: name,
+      field: isActive,
+    };
+    axios
+      .delete(`http://localhost:3000/v1/admin/deletePortfolio`, {
+        data: requestBody,
+      })
+      .then((response) => {
+        alert("PortFolio Deleted");
+      })
+      .catch((err) => {
+        if (err.response.status === 403) {
+          alert(err.response.data.error);
+        }
+      });
+  }
   return (
     <>
       {isModal && <Modal handleModal={handleModal} />}
@@ -111,17 +128,38 @@ export default function PortfolioCard({ data, name }) {
         <div className="test-head">
           <h1>PortFolio</h1>
           {isEditing ? (
-            <EditButton top={"0"} left={"300px"} onClick={handleSubmit}>
-              Submit
-            </EditButton>
+            <>
+              <EditButton
+                top={"0"}
+                left={"250px"}
+                onClick={() => setIsEditing(!isEditing)}
+              >
+                Cancel
+              </EditButton>
+              <EditButton top={"0"} left={"300px"} onClick={handleSubmit}>
+                Submit
+              </EditButton>
+            </>
           ) : (
-            <EditButton
-              top={"0"}
-              left={"300px"}
-              onClick={() => setIsEditing(!isEditing)}
-            >
-              Edit
-            </EditButton>
+            isActive && (
+              <>
+                <EditButton
+                  className="delete-pf-btn"
+                  top={"0"}
+                  left={"250px"}
+                  onClick={deleteUser}
+                >
+                  Delete
+                </EditButton>
+                <EditButton
+                  top={"0"}
+                  left={"300px"}
+                  onClick={() => setIsEditing(!isEditing)}
+                >
+                  Edit
+                </EditButton>
+              </>
+            )
           )}
 
           <div className="pf-nav-head">

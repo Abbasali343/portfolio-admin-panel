@@ -4,9 +4,9 @@ import "./Panel.css";
 import { useState } from "react";
 
 export default function Panel() {
-  const[category,setCategory] = useState('Personal');
- function handleCategory(index){
-  setCategory(index);
+  const [category, setCategory] = useState("Personal");
+  function handleCategory(index) {
+    setCategory(index);
   }
   return (
     <>
@@ -14,7 +14,9 @@ export default function Panel() {
         <div className="sidebar-container">
           <SideBar handleCategory={handleCategory} />
         </div>
-        <div className="form-container"><AdminPanel category={category} /></div>
+        <div className="form-container">
+          <AdminPanel category={category} />
+        </div>
       </div>
     </>
   );

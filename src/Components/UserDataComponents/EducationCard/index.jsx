@@ -1,5 +1,11 @@
-export default function EducationCard({ data, handleEduEditing }) {
-  const type = 'education';
+import axios from "axios";
+import EditDocumentButton from "../../EditDocumentButton";
+import DeleteButton from "../../DeleteButton";
+import { useState } from "react";
+
+export default function EducationCard({ name, data, handleEduEditing }) {
+  const [isDeleted, setIsDeleted] = useState(false);
+  const type = "education";
   let grayId = false;
   let renderCard;
   if (data) {
@@ -11,17 +17,39 @@ export default function EducationCard({ data, handleEduEditing }) {
       >
         <td className="edu-table-body-data">{item.title}</td>
         <td className="edu-table-body-data">{item.company}</td>
-        <td
-          className="table-body-data"
-          id="show-details"
-          onClick={()=>handleEduEditing(item.title,type)}
-        >
-          See Details
+        <td className="table-body-data" id="show-details">
+          <EditDocumentButton
+            onSelect={() => handleEduEditing(item.title, type)}
+          />
+          <DeleteButton onDelete={deleteUser} name={name} title={item.title} />
         </td>
         {(grayId = !grayId)}
       </tr>
     ));
   }
+
+  function deleteUser(name, title) {
+    const requestBody = {
+      name: name,
+      title: title,
+      type: type,
+    };
+    
+    axios
+      .delete(`http://localhost:3000/v1/admin/deleteEducation`, {
+        data: requestBody,
+      })
+      .then((response) => {
+        alert("Education Deleted");
+        setIsDeleted(!isDeleted);
+      })
+      .catch((err) => {
+        if (err.response.status === 404) {
+          alert(err.response.data.error);
+        }
+      });
+  }
+
   return (
     <>
       <div>

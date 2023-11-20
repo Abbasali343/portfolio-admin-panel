@@ -1,4 +1,8 @@
-export default function TestimonialsCard({ data, handleEduEditing }) {
+import axios from "axios";
+import EditDocumentButton from "../../EditDocumentButton";
+import DeleteButton from "../../DeleteButton";
+
+export default function TestimonialsCard({ name, data, handleEduEditing }) {
   const type = "testimonial";
   let grayId = false;
   let renderCard;
@@ -11,18 +15,38 @@ export default function TestimonialsCard({ data, handleEduEditing }) {
       >
         <td className="edu-table-body-data">{item && item.testimonialName}</td>
         <td className="edu-table-body-data">{item && item.profession}</td>
-        <td
-          className="table-body-data"
-          id="show-details"
-          onClick={() => {
-            handleEduEditing(item.testimonialName, type);
-          }}
-        >
-          See Details
+        <td className="table-body-data" id="show-details">
+          <EditDocumentButton
+            onSelect={() => handleEduEditing(item.testimonialName, type)}
+          />
+          <DeleteButton
+            onDelete={deleteUser}
+            name={name}
+            testimonialName={item.testimonialName}
+          />
         </td>
         {(grayId = !grayId)}
       </tr>
     ));
+  }
+  function deleteUser(name, title, testimonialName) {
+    const requestBody = {
+      name: name,
+      testimonialName: testimonialName,
+    };
+
+    axios
+      .delete(`http://localhost:3000/v1/admin/deleteTestimonial`, {
+        data: requestBody,
+      })
+      .then((response) => {
+        alert("Testimonial Deleted");
+      })
+      .catch((err) => {
+        if (err.response.status === 403) {
+          alert(err.response.data.error);
+        }
+      });
   }
   return (
     <>
