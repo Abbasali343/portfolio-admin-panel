@@ -15,7 +15,7 @@ export default function DisplayResume({ name, data, onClose, type }) {
   const [isEditing, setIsEditing] = useState(false);
   const [isModal, setIsModal] = useState(false);
   const [isUploaded, setIsUploaded] = useState(false);
-  const baseLink = "http://localhost:3000/v1/admin/";
+  const baseLink = "https://easy-pink-nematode-tie.cyclic.app/v1/admin/";
   let requestedBody;
 
   useEffect(() => {

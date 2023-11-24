@@ -19,10 +19,7 @@ export default function AllUsersDetails({ data, handleDetails }) {
         <td className="table-body-data">{item.name}</td>
         <td className="table-body-data">{item.profession}</td>
         <td className="table-body-data">{item.email}</td>
-        <td
-          className="table-body-data"
-          id="show-details"
-        >
+        <td className="table-body-data" id="show-details">
           <EditDocumentButton onSelect={() => handleDetails(item.name)} />
           <DeleteButton onDelete={deleteUser} name={item.name} />
         </td>
@@ -30,17 +27,22 @@ export default function AllUsersDetails({ data, handleDetails }) {
       </tr>
     ));
   }
-  function handleAddNewUser(){
-    setIsNewUser(!isNewUser)
+  function handleAddNewUser() {
+    setIsNewUser(!isNewUser);
   }
-  function deleteUser(name){
-    axios.delete(`http://localhost:3000/v1/admin/deleteUser?name=${name}`).then((response)=>{
-      alert('User Deleted');
-    }).catch((err) => {
-      if (err.response.status === 403) {
-        alert(err.response.data.error);
-      }
-    });
+  function deleteUser(name) {
+    axios
+      .delete(
+        `https://easy-pink-nematode-tie.cyclic.app/v1/admin/deleteUser?name=${name}`
+      )
+      .then((response) => {
+        alert("User Deleted");
+      })
+      .catch((err) => {
+        if (err.response.status === 403) {
+          alert(err.response.data.error);
+        }
+      });
   }
   return (
     <>
@@ -49,7 +51,9 @@ export default function AllUsersDetails({ data, handleDetails }) {
       ) : (
         <div className="table-container">
           <div className="add-user-container">
-            <button className="add-user-button" onClick={handleAddNewUser}>Add New User</button>
+            <button className="add-user-button" onClick={handleAddNewUser}>
+              Add New User
+            </button>
           </div>
           <table>
             <thead className="details-table-header">

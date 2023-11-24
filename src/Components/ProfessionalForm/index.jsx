@@ -39,7 +39,10 @@ export default function ProfessionalForm() {
           name: values.userName,
         };
         axios
-          .post("http://localhost:3000/v1/admin/addProfession", requestedValues)
+          .post(
+            "https://easy-pink-nematode-tie.cyclic.app/v1/admin/addProfession",
+            requestedValues
+          )
           .then((response) => {
             if (response.status === 201) {
               handleClick(values.userName, values.title);
@@ -70,7 +73,10 @@ export default function ProfessionalForm() {
     const requestBody = { name: name, title: title, link: image };
 
     axios
-      .patch("http://localhost:3000/v1/admin/updateProfession", requestBody)
+      .patch(
+        "https://easy-pink-nematode-tie.cyclic.app/v1/admin/updateProfession",
+        requestBody
+      )
       .then((response) => {
         if (response.status === 201) {
           setIsModal(!isModal);

@@ -28,7 +28,10 @@ export default function ContactForm() {
           name: values.userName,
         };
         axios
-          .patch("http://localhost:3000/v1/admin/addContact", requestedValues)
+          .patch(
+            "https://easy-pink-nematode-tie.cyclic.app/v1/admin/addContact",
+            requestedValues
+          )
           .then((response) => {
             if (response.status === 201) {
               setIsModal(!isModal);

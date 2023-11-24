@@ -43,7 +43,7 @@ export default function TestimonialForm() {
         };
         axios
           .patch(
-            "http://localhost:3000/v1/admin/addTestimonial",
+            "https://easy-pink-nematode-tie.cyclic.app/v1/admin/addTestimonial",
             requestedValues
           )
           .then((response) => {
@@ -78,7 +78,10 @@ export default function TestimonialForm() {
     };
 
     axios
-      .patch("http://localhost:3000/v1/admin/updateTestimonial", requestBody)
+      .patch(
+        "https://easy-pink-nematode-tie.cyclic.app/v1/admin/updateTestimonial",
+        requestBody
+      )
       .then((response) => {
         if (response.status === 201) {
           setIsModal(!isModal);

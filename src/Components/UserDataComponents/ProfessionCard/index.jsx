@@ -32,9 +32,12 @@ export default function ProfessionCard({ name, data, handleEduEditing }) {
       title: title,
     };
     axios
-      .delete(`http://localhost:3000/v1/admin/deleteProfession`, {
-        data: requestBody,
-      })
+      .delete(
+        `https://easy-pink-nematode-tie.cyclic.app/v1/admin/deleteProfession`,
+        {
+          data: requestBody,
+        }
+      )
       .then((response) => {
         alert("Profession Deleted");
       })

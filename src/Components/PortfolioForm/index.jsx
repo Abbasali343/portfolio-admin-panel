@@ -53,11 +53,14 @@ const PortfolioForm = () => {
       return alert("enter a field");
     }
     axios
-      .patch("http://localhost:3000/v1/admin/addPortfolio", {
-        name: selectedName,
-        field: field,
-        links: images,
-      })
+      .patch(
+        "https://easy-pink-nematode-tie.cyclic.app/v1/admin/addPortfolio",
+        {
+          name: selectedName,
+          field: field,
+          links: images,
+        }
+      )
       .then((response) => {
         if (response.status === 201) {
           setIsModal(!isModal);

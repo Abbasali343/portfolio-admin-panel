@@ -46,7 +46,7 @@ export default function EditPersonalForm({ data, handleEditing }) {
         };
         axios
           .patch(
-            "http://localhost:3000/v1/admin/updateAllPersonalInfo",
+            "https://easy-pink-nematode-tie.cyclic.app/v1/admin/updateAllPersonalInfo",
             requestedBody
           )
           .then((response) => {

@@ -32,7 +32,10 @@ export default function ExperienceForm() {
           name: values.userName,
         };
         axios
-          .patch("http://localhost:3000/v1/admin/addEducation", requestedValues)
+          .patch(
+            "https://easy-pink-nematode-tie.cyclic.app/v1/admin/addEducation",
+            requestedValues
+          )
           .then((response) => {
             if (response.status === 201) {
               setIsModal(!isModal);

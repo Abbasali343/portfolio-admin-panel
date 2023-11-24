@@ -10,9 +10,11 @@ export default function ShowDetails() {
   const [isDetails, setIsDetails] = useState(false);
 
   function fetchData() {
-    axios.get("http://localhost:3000/v1/admin/allUsers").then((response) => {
-      setData(response.data);
-    });
+    axios
+      .get("https://easy-pink-nematode-tie.cyclic.app/v1/admin/allUsers")
+      .then((response) => {
+        setData(response.data);
+      });
   }
 
   useEffect(() => {
@@ -27,7 +29,7 @@ export default function ShowDetails() {
     <>
       {isDetails ? (
         <SingleUserDetails
-          userName={userName!=='' ? userName : null}
+          userName={userName !== "" ? userName : null}
           handleDetails={handleDetails}
         />
       ) : (

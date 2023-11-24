@@ -20,7 +20,9 @@ export default function SingleUserDetails({ userName, handleDetails }) {
 
   function fetchData() {
     axios
-      .get(`http://localhost:3000/v1/admin/oneUser?name=${userName}`)
+      .get(
+        `https://easy-pink-nematode-tie.cyclic.app/v1/admin/oneUser?name=${userName}`
+      )
       .then((response) => {
         setData(response.data);
       });

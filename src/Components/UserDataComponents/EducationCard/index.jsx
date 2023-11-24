@@ -34,11 +34,14 @@ export default function EducationCard({ name, data, handleEduEditing }) {
       title: title,
       type: type,
     };
-    
+
     axios
-      .delete(`http://localhost:3000/v1/admin/deleteEducation`, {
-        data: requestBody,
-      })
+      .delete(
+        `https://easy-pink-nematode-tie.cyclic.app/v1/admin/deleteEducation`,
+        {
+          data: requestBody,
+        }
+      )
       .then((response) => {
         alert("Education Deleted");
         setIsDeleted(!isDeleted);

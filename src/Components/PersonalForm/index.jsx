@@ -34,7 +34,10 @@ const PersonalForm = ({ handleAddNewUser }) => {
           return alert("Select Image");
         }
         axios
-          .post("http://localhost:3000/v1/admin/addUser", values)
+          .post(
+            "https://easy-pink-nematode-tie.cyclic.app/v1/admin/addUser",
+            values
+          )
           .then((response) => {
             if (response.status === 201) {
               handleClick(values.name);
@@ -65,7 +68,10 @@ const PersonalForm = ({ handleAddNewUser }) => {
     const requestBody = { name: name, link: image };
 
     axios
-      .patch("http://localhost:3000/v1/admin/updateUser", requestBody)
+      .patch(
+        "https://easy-pink-nematode-tie.cyclic.app/v1/admin/updateUser",
+        requestBody
+      )
       .then((response) => {
         if (response.status === 201) {
           setIsModal(!isModal);

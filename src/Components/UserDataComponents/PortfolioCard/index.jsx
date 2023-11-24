@@ -77,7 +77,7 @@ export default function PortfolioCard({ data, name }) {
     };
     axios
       .patch(
-        "http://localhost:3000/v1/admin/updateAllPortfolioInfo",
+        "https://easy-pink-nematode-tie.cyclic.app/v1/admin/updateAllPortfolioInfo",
         requestedBody
       )
       .then((response) => {
@@ -109,9 +109,12 @@ export default function PortfolioCard({ data, name }) {
       field: isActive,
     };
     axios
-      .delete(`http://localhost:3000/v1/admin/deletePortfolio`, {
-        data: requestBody,
-      })
+      .delete(
+        `https://easy-pink-nematode-tie.cyclic.app/v1/admin/deletePortfolio`,
+        {
+          data: requestBody,
+        }
+      )
       .then((response) => {
         alert("PortFolio Deleted");
       })

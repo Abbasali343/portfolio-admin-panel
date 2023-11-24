@@ -37,9 +37,12 @@ export default function ExperienceCard({ name, data, handleEduEditing }) {
       type: type,
     };
     axios
-      .delete(`http://localhost:3000/v1/admin/deleteEducation`, {
-        data: requestBody,
-      })
+      .delete(
+        `https://easy-pink-nematode-tie.cyclic.app/v1/admin/deleteEducation`,
+        {
+          data: requestBody,
+        }
+      )
       .then((response) => {
         alert("Experience Deleted");
       })

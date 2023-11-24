@@ -6,9 +6,11 @@ export default function ProfileSelector({ getName }) {
   const [data, setData] = useState([]);
 
   const fetchUsers = () => {
-    axios.get("http://localhost:3000/v1/admin/allUsers").then((response) => {
-      setData(response.data);
-    });
+    axios
+      .get("https://easy-pink-nematode-tie.cyclic.app/v1/admin/allUsers")
+      .then((response) => {
+        setData(response.data);
+      });
   };
   useEffect(() => {
     fetchUsers();

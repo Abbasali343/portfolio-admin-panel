@@ -36,9 +36,12 @@ export default function TestimonialsCard({ name, data, handleEduEditing }) {
     };
 
     axios
-      .delete(`http://localhost:3000/v1/admin/deleteTestimonial`, {
-        data: requestBody,
-      })
+      .delete(
+        `https://easy-pink-nematode-tie.cyclic.app/v1/admin/deleteTestimonial`,
+        {
+          data: requestBody,
+        }
+      )
       .then((response) => {
         alert("Testimonial Deleted");
       })
