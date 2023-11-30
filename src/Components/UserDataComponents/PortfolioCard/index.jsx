@@ -117,16 +117,23 @@ export default function PortfolioCard({ data, name }) {
       )
       .then((response) => {
         alert("PortFolio Deleted");
+        setIsModal(!isModal)
       })
       .catch((err) => {
         if (err.response.status === 403) {
           alert(err.response.data.error);
+          setIsModal(!isModal)
         }
       });
   }
   return (
     <>
-      {isModal && <Modal handleModal={handleModal} />}
+      {isModal && (
+        <Modal
+          handleModal={handleModal}
+          onDelete={deleteUser}
+        />
+      )}
       <div className="test-main-container">
         <div className="test-head">
           <h1>PortFolio</h1>
@@ -150,7 +157,7 @@ export default function PortfolioCard({ data, name }) {
                   className="delete-pf-btn"
                   top={"0"}
                   left={"250px"}
-                  onClick={deleteUser}
+                  onClick={handleModal}
                 >
                   Delete
                 </EditButton>

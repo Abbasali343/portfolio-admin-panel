@@ -2,9 +2,9 @@
   width: 1280px;
   height: 636px;
   background-color: black;
-  position: absolute;
+  position: fixed;
   top: 0px;
-  left: -300px;
+  left: 0;
   z-index: 10;
   opacity: 50%;
 }
@@ -13,10 +13,17 @@
   height: 200px;
   background-color: #fff;
   border: 3px solid #ffba32;
-  position: absolute;
-  top: 190px;
+  position: fixed;
+  left: 490px;
+  top: 210px;
   text-align: center;
   z-index: 20;
+}
+.closeX{
+  font-weight: 400;
+  font-size: 22px;
+  transform: translate(230px,-15px);
+  cursor: pointer;
 }
 .modal-message{
     font-weight: 400;

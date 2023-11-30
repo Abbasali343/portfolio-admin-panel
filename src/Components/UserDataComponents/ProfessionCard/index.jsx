@@ -1,8 +1,12 @@
 import axios from "axios";
 import EditDocumentButton from "../../EditDocumentButton";
 import DeleteButton from "../../DeleteButton";
+import Modal from "../../Modal";
+import { useState } from "react";
 
 export default function ProfessionCard({ name, data, handleEduEditing }) {
+  const [isModal, setIsModal] = useState(false);
+  const [title,setTitle] = useState("");
   const type = "profession";
   let grayId = false;
   let renderCard;
@@ -19,7 +23,7 @@ export default function ProfessionCard({ name, data, handleEduEditing }) {
           <EditDocumentButton
             onSelect={() => handleEduEditing(item.title, type)}
           />
-          <DeleteButton onDelete={deleteUser} name={name} title={item.title} />
+          <DeleteButton handleModal={handleModal} name={item.name} title={item.title} />
         </td>
         {(grayId = !grayId)}
       </tr>
@@ -40,32 +44,52 @@ export default function ProfessionCard({ name, data, handleEduEditing }) {
       )
       .then((response) => {
         alert("Profession Deleted");
+        setIsModal(!isModal)
       })
       .catch((err) => {
         if (err.response.status === 403) {
           alert(err.response.data.error);
+          setIsModal(!isModal)
         }
       });
   }
+
+  function handleModal(name,title) {
+    if(title){
+      setTitle(title)
+    }
+    setIsModal(!isModal);
+  }
   return (
     <>
-      <div className="test-main-container">
-        <div className="test-head">
-          <h1>Professions</h1>
-          <div className="test-body">
-            <table className="test-table-h">
-              <thead className="test-table-h">
-                <tr className="test-table-head">
-                  <th className="test-th">Title</th>
-                  <th className="test-th">Description</th>
-                  <th className="test-th">Action</th>
-                </tr>
-              </thead>
-              <tbody className="edu-table-body">{renderCard}</tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+    {isModal && (
+            <Modal
+              handleModal={handleModal}
+              onDelete={deleteUser}
+              name={name}
+              title={title}
+            />
+          )}
+          {!isModal && (
+             <div className="test-main-container">
+             <div className="test-head">
+               <h1>Professions</h1>
+               <div className="test-body">
+                 <table className="test-table-h">
+                   <thead className="test-table-h">
+                     <tr className="test-table-head">
+                       <th className="test-th">Title</th>
+                       <th className="test-th">Description</th>
+                       <th className="test-th">Action</th>
+                     </tr>
+                   </thead>
+                   <tbody className="edu-table-body">{renderCard}</tbody>
+                 </table>
+               </div>
+             </div>
+           </div>
+          )}
+     
     </>
   );
 }
